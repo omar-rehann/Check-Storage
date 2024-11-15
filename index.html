@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Hello World!</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <input placeholder="Please Enter Value" class="enter">
+        <div class="button">
+            <span class="check">Check Item</span>
+            <span class="add">Add Item</span>
+            <span class="remove">Remove Item</span>
+            <span class="show">Show Item</span>
+        </div>
+        <div class="result">
+            <div>Result</div>
+        </div>
+    </div>
+    <script>
+        let allspan = document.querySelectorAll(".button span");
+        let inputel = document.querySelector(".enter");
+        let showdata = document.querySelector(".result");
+
+        allspan.forEach((span) => {
+            span.addEventListener("click", (e) => {
+
+                if (e.target.classList.contains("check")) {
+                    checkitem();
+                }
+                if (e.target.classList.contains("add")) {
+                    additem();
+                }
+                if (e.target.classList.contains("remove")) {
+                    removeitem();
+                }
+                if (e.target.classList.contains("show")) {
+                    showitem();
+                }
+
+            });
+        });
+
+        function showmessage() {
+            if (inputel.value === "") {
+                showdata.innerHTML = "Please Enter Value ";
+            }
+        }
+
+        function checkitem() {
+            if (inputel.value !== "") {
+                if (localStorage.getItem(inputel.value)) {
+                    showdata.innerHTML = "Input Value Found In Local Storage";
+                } else {
+                    showdata.innerHTML = "Input Value Not Found In Local Storage";
+                }
+            } else {
+                showmessage();
+            }
+        }
+
+        function additem() {
+            if (inputel.value !== "") {
+                localStorage.setItem(inputel.value, "task");
+                showdata.innerHTML = "Input Value Added To Local Storage";
+                inputel.value = "";
+            } else {
+                showmessage();
+            }
+        }
+
+        function removeitem() {
+            if (inputel.value !== "") {
+                if (localStorage.getItem(inputel.value)) {
+                    localStorage.removeItem(inputel.value);
+                    showdata.innerHTML = "Input Value Removed From Local Storage";
+                } else {
+                    showdata.innerHTML = "Input Value Not Found In Local Storage";
+                }
+            } else {
+                showmessage();
+            }
+        }
+
+        function showitem() {
+            if (localStorage.length) {
+                let items = "All Items In Local Storage:<br>";
+                for (let [key, value] of Object.entries(localStorage)) {
+                    items += `${key}<br>`;
+                }
+                showdata.innerHTML = items;
+            } else {
+                showmessage();
+            }
+        }
+    </script>
+</body>
+
+</html>
